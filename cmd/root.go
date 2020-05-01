@@ -27,7 +27,14 @@ var target string
 var rootCmd = &cobra.Command{
 	Use:   "sb2md <target>",
 	Short: "CLI to convert Scrapbox page to Markdown",
-	Long: usage(),
+	Long: LongUsage(`
+		A longer description that spans multiple lines and likely contains
+		examples and usage of using your application. For example:
+		
+		Cobra is a CLI library for Go that empowers applications.
+		This application is a tool to generate the needed files
+		to quickly create a Cobra application.
+	`),
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
@@ -44,16 +51,17 @@ func Execute() {
 	}
 	if target != "" {
 		fmt.Printf("target : %s\n", target)
-		genMD()
+		genMd()
 	} else {
 		help, _ := rootCmd.Flags().GetBool("help")
 		if !help {
 			rootCmd.Usage()
+			os.Exit(1)
 		}
 	}
 }
 
-func genMD() error {
+func genMd() error {
 	hatena, _ := rootCmd.PersistentFlags().GetBool("hatena")
 	fmt.Printf("hatena: %t\n", hatena)
 	bytes, _ := api.FetchPage("kondoumh", "Dev")
@@ -67,13 +75,4 @@ func genMD() error {
 
 func init() {
 	rootCmd.PersistentFlags().BoolP("hatena", "n", false, "Use Hatena blog embd")
-}
-
-func usage() string {
-	return `A longer description that spans multiple lines and likely contains
-	examples and usage of using your application. For example:
-	
-	Cobra is a CLI library for Go that empowers applications.
-	This application is a tool to generate the needed files
-	to quickly create a Cobra application.`
 }
