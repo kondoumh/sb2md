@@ -16,7 +16,7 @@ var (
 	rgxCodeBlock = regexp.MustCompile(`^code:([^.]*)(\.([^.]*))?`)
 	rgxTable = regexp.MustCompile(`^table:(.*)$`)
 	rgxHeading = regexp.MustCompile(`^\[(\*+)\s([^\]]+)\]`)
-	rgxIndent = regexp.MustCompile(`^(\s+)([^\s].+)/`)
+	rgxIndent = regexp.MustCompile(`^(\s+)([^\s].+)`)
 	rgxStrong = regexp.MustCompile(`\[(\*+)\s(.+)\]`)
 	rgxLink = regexp.MustCompile(`\[https?:\/\/[^\s]*\s[^\]]*]`)
 	rgxLinkInside = regexp.MustCompile(`\[(https?:\/\/[^\s]*)\s([^\]]*)]`)
@@ -53,7 +53,10 @@ func convert(line string) string {
 			str = strings.Trim(str, " ")
 			tr := strings.Split(str, "$\t")
 			result = "| " + strings.Join(tr, " | ") + " |"
-			renderTableHeader = true
+			if !renderTableHeader {
+				result += "\n" + strings.Repeat("|:--", len(tr)) + "|"
+				renderTableHeader = true
+			}
 		}
 		return result
 	}
@@ -78,7 +81,7 @@ func convert(line string) string {
 			indent := strings.Repeat("  ", len(ar[1]) - 1)
 			str := replaceMdLink(ar[2])
 			str = replaceGazoImmage(str)
-			result += indent + "- " + ar[2]
+			result += indent + "- " + str
 		} else {
 			str := replaceMdLink(line)
 			str = replaceGazoImmage(str)
