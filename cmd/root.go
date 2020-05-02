@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 	"github.com/spf13/cobra"
-
+	"regexp"
 	"github.com/mamezou-tech/sbgraph/pkg/api"
 )
 
@@ -22,7 +22,11 @@ type line struct {
 	Text string `json:"text"`
 }
 
-var target string
+var (
+	targetProject string
+	targetPage string
+	rgxTarget = regexp.MustCompile(`([^\/]+)/([^\/]+)`)
+)
 
 var rootCmd = &cobra.Command{
 	Use:   "sb2md <project-name>/<page-title>",
@@ -34,7 +38,11 @@ var rootCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
-			target = args[0]
+			if rgxTarget.Match([]byte(args[0])) {
+				ar := rgxTarget.FindStringSubmatch(args[0])
+				targetProject = ar[1]
+				targetPage = ar[2]
+			}
 		}
 	},
 }
@@ -44,8 +52,7 @@ func Execute() {
 	err := rootCmd.Execute()
 	CheckErr(err)
 
-	if target != "" {
-		fmt.Printf("Contents of %s\n", target)
+	if targetProject != "" && targetPage != "" {
 		genMd()
 	} else {
 		help, _ := rootCmd.Flags().GetBool("help")
@@ -56,19 +63,21 @@ func Execute() {
 	}
 }
 
-func genMd() error {
+func genMd() {
 	hatena, _ := rootCmd.PersistentFlags().GetBool("hatena")
-	fmt.Printf("hatena: %t\n", hatena)
-	bytes, _ := api.FetchPage("kondoumh", "Dev")
+	bytes, err := api.FetchPage(targetProject, targetPage)
+	CheckErr(err)
+
 	var pg page
-	json.Unmarshal(bytes, &pg)
+	err = json.Unmarshal(bytes, &pg)
+	CheckErr(err)
+
 	var lines []string
 	for _, line := range pg.Lines {
 		lines = append(lines, line.Text)
 	}
 	result := ToMd(lines, hatena)
 	fmt.Println(result)
-	return nil
 }
 
 func init() {
