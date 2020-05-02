@@ -1,26 +1,26 @@
 package cmd
 
 import (
-	"strings"
 	"regexp"
+	"strings"
 )
 
 var (
-	codeblock bool
-	table bool
+	codeblock         bool
+	table             bool
 	renderTableHeader bool
-	hatenaMarkdown bool
+	hatenaMarkdown    bool
 )
 
 var (
-	rgxCodeBlock = regexp.MustCompile(`^code:([^.]*)(\.([^.]*))?`)
-	rgxTable = regexp.MustCompile(`^table:(.*)$`)
-	rgxHeading = regexp.MustCompile(`^\[(\*+)\s([^\]]+)\]`)
-	rgxIndent = regexp.MustCompile(`^(\s+)([^\s].+)`)
-	rgxStrong = regexp.MustCompile(`\[(\*+)\s(.+)\]`)
-	rgxLink = regexp.MustCompile(`\[https?:\/\/[^\s]*\s[^\]]*]`)
+	rgxCodeBlock  = regexp.MustCompile(`^code:([^.]*)(\.([^.]*))?`)
+	rgxTable      = regexp.MustCompile(`^table:(.*)$`)
+	rgxHeading    = regexp.MustCompile(`^\[(\*+)\s([^\]]+)\]`)
+	rgxIndent     = regexp.MustCompile(`^(\s+)([^\s].+)`)
+	rgxStrong     = regexp.MustCompile(`\[(\*+)\s(.+)\]`)
+	rgxLink       = regexp.MustCompile(`\[https?:\/\/[^\s]*\s[^\]]*]`)
 	rgxLinkInside = regexp.MustCompile(`\[(https?:\/\/[^\s]*)\s([^\]]*)]`)
-	rgxGazo = regexp.MustCompile(`\[https:\/\/gyazo.com\/[^\]]*\]`)
+	rgxGazo       = regexp.MustCompile(`\[https:\/\/gyazo.com\/[^\]]*\]`)
 	rgxGazoInside = regexp.MustCompile(`\[(https:\/\/gyazo.com\/[^\]]*)\]`)
 )
 
@@ -39,7 +39,7 @@ func ToMd(lines []string, hatena bool) string {
 }
 
 func convert(line string) string {
-	result := "";
+	result := ""
 	if codeblock {
 		if !strings.HasPrefix(line, " ") {
 			result = "```\n"
@@ -50,8 +50,8 @@ func convert(line string) string {
 		}
 	} else if table {
 		if !strings.HasPrefix(line, " ") {
-			table = false;
-			renderTableHeader = false;
+			table = false
+			renderTableHeader = false
 		} else {
 			str := strings.Replace(line, "\t", "$\t", -1)
 			str = strings.Trim(str, " ")
@@ -82,7 +82,7 @@ func convert(line string) string {
 			result += strings.Repeat("#", decideLevel(len(ar[1]))) + " " + ar[2]
 		} else if rgxIndent.Match([]byte(line)) {
 			ar := rgxIndent.FindStringSubmatch(line)
-			indent := strings.Repeat("  ", len(ar[1]) - 1)
+			indent := strings.Repeat("  ", len(ar[1])-1)
 			str := replaceMdLink(ar[2])
 			str = replaceGazoImmage(str)
 			str = replaceStrong(str)
@@ -145,7 +145,7 @@ func replaceStrong(str string) string {
 		strongs := rgxStrong.FindAllString(str, -1)
 		for _, strong := range strongs {
 			ar := rgxStrong.FindStringSubmatch(strong)
-			result = strings.Replace(result, strong, "**" + ar[2] + "**", -1)
+			result = strings.Replace(result, strong, "**"+ar[2]+"**", -1)
 		}
 	}
 	return result

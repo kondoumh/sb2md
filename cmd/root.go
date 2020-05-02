@@ -4,9 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"github.com/spf13/cobra"
 	"regexp"
+
 	"github.com/mamezou-tech/sbgraph/pkg/api"
+	"github.com/spf13/cobra"
 )
 
 type page struct {
@@ -24,8 +25,8 @@ type line struct {
 
 var (
 	targetProject string
-	targetPage string
-	rgxTarget = regexp.MustCompile(`([^\/]+)/([^\/]+)`)
+	targetPage    string
+	rgxTarget     = regexp.MustCompile(`([^\/]+)/([^\/]+)`)
 )
 
 var rootCmd = &cobra.Command{
