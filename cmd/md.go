@@ -85,10 +85,12 @@ func convert(line string) string {
 			indent := strings.Repeat("  ", len(ar[1]) - 1)
 			str := replaceMdLink(ar[2])
 			str = replaceGazoImmage(str)
+			str = replaceStrong(str)
 			result += indent + "- " + str
 		} else {
 			str := replaceMdLink(line)
 			str = replaceGazoImmage(str)
+			str = replaceStrong(str)
 			result += str
 		}
 	}
@@ -135,4 +137,16 @@ func replaceGazoImmage(str string) string {
 func toGazoLink(link string) string {
 	ar := rgxGazoInside.FindStringSubmatch(link)
 	return "![](" + ar[1] + ".png)"
+}
+
+func replaceStrong(str string) string {
+	result := str
+	if rgxStrong.Match([]byte(str)) {
+		strongs := rgxStrong.FindAllString(str, -1)
+		for _, strong := range strongs {
+			ar := rgxStrong.FindStringSubmatch(strong)
+			result = strings.Replace(result, strong, "**" + ar[2] + "**", -1)
+		}
+	}
+	return result
 }
