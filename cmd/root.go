@@ -62,9 +62,12 @@ func genMd() error {
 	bytes, _ := api.FetchPage("kondoumh", "Dev")
 	var pg page
 	json.Unmarshal(bytes, &pg)
+	var lines []string
 	for _, line := range pg.Lines {
-		fmt.Println(line.Text)
+		lines = append(lines, line.Text)
 	}
+	result := ToMd(lines, hatena)
+	fmt.Println(result)
 	return nil
 }
 
