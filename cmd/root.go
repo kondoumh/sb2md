@@ -25,15 +25,11 @@ type line struct {
 var target string
 
 var rootCmd = &cobra.Command{
-	Use:   "sb2md <target>",
+	Use:   "sb2md <project-name>/<page-title>",
 	Short: "CLI to convert Scrapbox page to Markdown",
 	Long: LongUsage(`
-		A longer description that spans multiple lines and likely contains
-		examples and usage of using your application. For example:
-		
-		Cobra is a CLI library for Go that empowers applications.
-		This application is a tool to generate the needed files
-		to quickly create a Cobra application.
+		sb2md is a CLI for outputting Scrapbox pages in Markdown format.
+		Fetches the page data, converts it to Markdown format, and outputs it to standard output.
 	`),
 
 	Run: func(cmd *cobra.Command, args []string) {
@@ -43,14 +39,13 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-// Execute will fetch page and generate markdown
+// Execute sets flags
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	err := rootCmd.Execute()
+	CheckErr(err)
+
 	if target != "" {
-		fmt.Printf("target : %s\n", target)
+		fmt.Printf("Contents of %s\n", target)
 		genMd()
 	} else {
 		help, _ := rootCmd.Flags().GetBool("help")
@@ -74,5 +69,5 @@ func genMd() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolP("hatena", "n", false, "Use Hatena blog embd")
+	rootCmd.PersistentFlags().BoolP("hatena", "n", false, "Generate links in Hatena blog format")
 }
