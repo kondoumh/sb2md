@@ -1,6 +1,7 @@
 # sb2md
 
-CLI to convert Scrapbox page to Markdown.
+sb2md is a CLI for outputting Scrapbox pages in Markdown format.
+Fetches the page data, converts it to Markdown format, and outputs it to standard output.
 
 ## Installing
 
