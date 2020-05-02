@@ -28,8 +28,12 @@ var (
 func ToMd(lines []string, hatena bool) string {
 	result := ""
 	hatenaMarkdown = hatena
-	for _, line := range lines {
-		result += convert(line) + "\n"
+	for idx, line := range lines {
+		if idx == 0 {
+			result = line + "\n=================\n"
+		} else {
+			result += convert(line) + "\n"
+		}
 	}
 	return result
 }
