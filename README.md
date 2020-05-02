@@ -12,7 +12,7 @@ go get -u github.com/kondoumh/sb2md
 or 
 
 ```
-curl -LO https://github.com/kondoumh/sb2md/releases/download/<version>/sb2md-<platform>-amd64.tar.gzff
+curl -LO https://github.com/kondoumh/sb2md/releases/download/<version>/sb2md-<platform>-amd64.tar.gz
 tar xvf sb2md-<platform>-amd64.tar.gz
 sudo mv sb2md /usr/local/bin
 ```
