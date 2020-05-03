@@ -1,5 +1,8 @@
 # sb2md
 
+![Go](https://github.com/kondoumh/sb2md/workflows/Go/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/kondoumh/sb2md)](https://goreportcard.com/report/github.com/kondoumh/sb2md)
+
 sb2md is a CLI for outputting Scrapbox pages in Markdown format.
 Fetches the page data, converts it to Markdown format, and outputs it to standard output.
 
