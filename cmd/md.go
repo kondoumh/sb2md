@@ -49,11 +49,12 @@ func convert(line string) string {
 			return result
 		}
 	} else if table {
-		if !strings.HasPrefix(line, " ") {
+		if !strings.HasPrefix(line, " ") && !strings.HasPrefix(line, "\t") {
 			table = false
 			renderTableHeader = false
 		} else {
-			str := strings.Replace(line, "\t", "$\t", -1)
+			row := string([]rune(line)[1:])
+			str := strings.Replace(row, "\t", "$\t", -1)
 			str = strings.Trim(str, " ")
 			tr := strings.Split(str, "$\t")
 			result = "| " + strings.Join(tr, " | ") + " |"
@@ -61,8 +62,8 @@ func convert(line string) string {
 				result += "\n" + strings.Repeat("|:--", len(tr)) + "|"
 				renderTableHeader = true
 			}
+			return result
 		}
-		return result
 	}
 	if !codeblock && !table {
 		if rgxCodeBlock.Match([]byte(line)) {
