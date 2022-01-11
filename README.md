@@ -9,7 +9,7 @@ Fetches the page data, converts it to Markdown format, and outputs it to standar
 ## Installing
 
 ```
-go get -u github.com/kondoumh/sb2md
+go install github.com/kondoumh/sb2md@latest
 ```
 
 or 
