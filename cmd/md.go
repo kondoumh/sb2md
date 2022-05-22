@@ -17,7 +17,7 @@ var (
 	rgxTable      = regexp.MustCompile(`^table:(.*)$`)
 	rgxHeading    = regexp.MustCompile(`^\[(\*+)\s([^\]]+)\]`)
 	rgxIndent     = regexp.MustCompile(`^(\s+)([^\s].+)`)
-	rgxStrong     = regexp.MustCompile(`\[(\*+)\s(.+)\]`)
+	rgxStrong     = regexp.MustCompile(`\[(\*+)\s([^\]]+)\]`)
 	rgxLink       = regexp.MustCompile(`\[https?:\/\/[^\s]*\s[^\]]*]`)
 	rgxLinkInside = regexp.MustCompile(`\[(https?:\/\/[^\s]*)\s([^\]]*)]`)
 	rgxGazo       = regexp.MustCompile(`\[https:\/\/gyazo.com\/[^\]]*\]`)
