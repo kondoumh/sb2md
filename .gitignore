@@ -14,3 +14,6 @@ sb2md
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# for goenv
+.go-version
