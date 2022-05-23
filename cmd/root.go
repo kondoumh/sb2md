@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"regexp"
+	"strings"
 
 	"github.com/mamezou-tech/sbgraph/pkg/api"
 	"github.com/spf13/cobra"
@@ -39,9 +40,10 @@ var rootCmd = &cobra.Command{
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) > 0 {
-			if rgxTarget.Match([]byte(args[0])) {
-				ar := rgxTarget.FindStringSubmatch(args[0])
-				targetProject = ar[1]
+			arg := strings.Join(args, " ")
+			if rgxTarget.Match([]byte(arg)) {
+				ar := rgxTarget.FindStringSubmatch(arg)
+				targetProject = strings.Replace(ar[1], " ", "-", -1)
 				targetPage = ar[2]
 			}
 		}
