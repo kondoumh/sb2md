@@ -20,8 +20,8 @@ var (
 	rgxStrong     = regexp.MustCompile(`\[(\*+)\s([^\]]+)\]`)
 	rgxLink       = regexp.MustCompile(`\[https?:\/\/[^\s]*\s[^\]]*]`)
 	rgxLinkInside = regexp.MustCompile(`\[(https?:\/\/[^\s]*)\s([^\]]*)]`)
-	rgxGazo       = regexp.MustCompile(`\[https:\/\/gyazo.com\/[^\]]*\]`)
-	rgxGazoInside = regexp.MustCompile(`\[(https:\/\/gyazo.com\/[^\]]*)\]`)
+	rgxGazo       = regexp.MustCompile(`\[https:\/\/gyazo\.com\/[^\]]*\]`)
+	rgxGazoInside = regexp.MustCompile(`\[(https:\/\/gyazo\.com\/[^\]]*)\]`)
 )
 
 // ToMd convert lines to Markdown
