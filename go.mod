@@ -5,7 +5,7 @@ go 1.22
 require (
 	github.com/MakeNowJust/heredoc/v2 v2.0.1
 	github.com/mamezou-tech/sbgraph v0.10.1
-	github.com/spf13/cobra v1.9.0
+	github.com/spf13/cobra v1.9.1
 )
 
 require (
