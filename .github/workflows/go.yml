@@ -10,13 +10,14 @@ jobs:
 
     steps:
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v4
-
     - name: Set up Go
       uses: actions/setup-go@v5
       with:
         go-version: '1.22'
+        cache: false
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v4
 
     - name: Run tests
       run: go test -v github.com/kondoumh/sb2md/cmd
